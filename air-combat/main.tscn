@@ -2,10 +2,13 @@
 
 [ext_resource type="Script" uid="uid://d2sm6cn4o7bqw" path="res://scripts/player_control.gd" id="1_0xm2m"]
 [ext_resource type="Texture2D" uid="uid://xhdfjdl27tjk" path="res://assets/Air Strike/Planes/player_planes.png" id="1_ig7tw"]
-[ext_resource type="Script" uid="uid://fjh3qwykrjsk" path="res://scripts/draw_background_segment.gd" id="2_1bvp3"]
-[ext_resource type="Script" uid="uid://r2leaufn7jow" path="res://scripts/map_generation.gd" id="3_7mycd"]
+[ext_resource type="Script" uid="uid://fjh3qwykrjsk" path="res://scripts/map/draw_background_segment.gd" id="2_1bvp3"]
+[ext_resource type="Script" uid="uid://r2leaufn7jow" path="res://scripts/map/map_generation.gd" id="3_7mycd"]
 [ext_resource type="Texture2D" uid="uid://dvk67v8n8co5u" path="res://assets/Air Strike/tileset.png" id="3_h2yge"]
-[ext_resource type="Script" uid="uid://ct2bkwymc78ko" path="res://scripts/map_designs.gd" id="3_lquwl"]
+[ext_resource type="Script" uid="uid://ct2bkwymc78ko" path="res://scripts/map/map_designs.gd" id="3_lquwl"]
+[ext_resource type="Script" uid="uid://bmfj5mosq18qk" path="res://scripts/enemy.gd" id="7_5vw27"]
+[ext_resource type="Texture2D" uid="uid://bhi7gb5ku8r5b" path="res://assets/Air Strike/Planes/enemy_planes.png" id="7_272bh"]
+[ext_resource type="Texture2D" uid="uid://b1j8lux4in6v2" path="res://assets/Air Strike/Effects/plane_shot.png" id="9_kek77"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1bvp3"]
 texture = ExtResource("3_h2yge")
@@ -380,37 +383,73 @@ sources/0 = SubResource("TileSetAtlasSource_1bvp3")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h2yge"]
 size = Vector2(31, 30)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4c57u"]
+size = Vector2(10, 10)
+
 [node name="Node2D" type="Node2D" unique_id=543733300]
 
-[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=964857806]
+[node name="Ground Tile Map" type="TileMapLayer" parent="." unique_id=964857806]
 texture_filter = 1
-scale = Vector2(3, 3)
-tile_map_data = PackedByteArray("AAAIAAUAAAACABAAAAAJAAUAAAADABAAAAAJAAYAAAACAA4AAAAJAAcAAAACAA4AAAAIAAcAAAABAA8AAAAIAAYAAAABABAAAAAFAAcAAAADAAQAAAAFAAYAAAADAAMAAAAGAAcAAAAHAAIAAAAGAAYAAAAHAAEAAAA=")
+scale = Vector2(2, 2)
+tile_map_data = PackedByteArray("AAAIAAUAAAACABAAAAAJAAUAAAADABAAAAAJAAYAAAACAA4AAAAJAAcAAAACAA4AAAAIAAcAAAABAA8AAAAIAAYAAAABABAAAAAFAAcAAAADAAQAAAAFAAYAAAADAAMAAAAGAAcAAAAHAAIAAAAGAAYAAAAHAAEAAAAKAAcAAAAMAAIAAAAKAAYAAAAMAAEAAAALAAcAAAAOAAcAAAAKAAgAAAAOAAIAAAALAAgAAAAOAAIAAAAHAAcAAAAGAAYAAAAHAAYAAAAGAAUAAAAJAAgAAAAFAAYAAAALAAYAAAAFAAYAAAA=")
 tile_set = SubResource("TileSet_lquwl")
 script = ExtResource("2_1bvp3")
 
-[node name="MapGen" type="Node2D" parent="TileMapLayer" unique_id=1744018759]
+[node name="MapGen" type="Node2D" parent="Ground Tile Map" unique_id=1744018759]
 scale = Vector2(0.33333334, 0.33333334)
 script = ExtResource("3_7mycd")
 
-[node name="MapDesigns" type="Node2D" parent="TileMapLayer/MapGen" unique_id=1713261728]
+[node name="MapDesigns" type="Node2D" parent="Ground Tile Map/MapGen" unique_id=1713261728]
 script = ExtResource("3_lquwl")
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=1179859349]
+[node name="Player" type="CharacterBody2D" parent="." unique_id=1179859349]
+position = Vector2(487, 104)
 scale = Vector2(3, 3)
 script = ExtResource("1_0xm2m")
 
-[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D" unique_id=660994383]
+[node name="Sprite2D" type="Sprite2D" parent="Player" unique_id=660994383]
 texture_filter = 1
 rotation = 1.5707964
 texture = ExtResource("1_ig7tw")
 hframes = 6
 vframes = 3
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=1128939312]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=1128939312]
+visible = false
 position = Vector2(0.16666651, 0)
 shape = SubResource("RectangleShape2D_h2yge")
 
-[node name="Camera2D" type="Camera2D" parent="CharacterBody2D" unique_id=1843959126]
+[node name="Camera2D" type="Camera2D" parent="Player" unique_id=1843959126]
 visible = false
-enabled = false
+position_smoothing_enabled = true
+
+[node name="Enemy" type="CharacterBody2D" parent="." unique_id=173481769 node_paths=PackedStringArray("player")]
+position = Vector2(833, 161)
+scale = Vector2(3, 3)
+script = ExtResource("7_5vw27")
+player = NodePath("../Player")
+speed = 600
+turn_speed = 2.0
+
+[node name="Sprite2D" type="Sprite2D" parent="Enemy" unique_id=663300740]
+texture_filter = 1
+rotation = 1.5707964
+texture = ExtResource("7_272bh")
+hframes = 6
+vframes = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy" unique_id=1716213648]
+position = Vector2(0.16666651, 0)
+shape = SubResource("RectangleShape2D_h2yge")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=678075234]
+position = Vector2(565, 111)
+rotation = 1.5707964
+scale = Vector2(3, 3)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=31757811]
+shape = SubResource("RectangleShape2D_4c57u")
+
+[node name="Sprite2D" type="Sprite2D" parent="Area2D" unique_id=1349995911]
+texture_filter = 1
+texture = ExtResource("9_kek77")

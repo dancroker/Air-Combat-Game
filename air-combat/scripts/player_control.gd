@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-@export var rotation_speed = 1.5
+@export var rotation_speed = 3
 @export var engine_force = 50
 @export var min_engine_force = 100 #/10
 @export var max_engine_force = 300 #/10
