@@ -6,6 +6,7 @@ extends CharacterBody2D
 @export var max_engine_force = 300 #/10
 @export var engine_change_force = 5
 
+var bullet_path=preload("res://basicbullet.tscn")
 
 var rotation_direction = 0
 
@@ -23,8 +24,19 @@ func get_input():
 			if engine_force > max_engine_force:
 					engine_force = max_engine_force
 	velocity = transform.x * engine_force
+	
+	var shoot = Input.is_action_just_pressed("fire shot")
+	if (shoot):
+		fire()
 
 func _physics_process(delta):
 	get_input()
 	rotation += rotation_direction * rotation_speed * delta
 	move_and_slide()
+	
+func fire():
+	var bullets = bullet_path.instantiate()
+	bullets.dir = rotation
+	bullets.pos=$"Fire Location".global_position
+	bullets.rota=global_rotation
+	get_parent().add_child(bullets)
