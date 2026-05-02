@@ -1,21 +1,21 @@
-[gd_scene format=3 uid="uid://d2nunwkd54drr"]
+[gd_scene format=3 uid="uid://bgsa4lajkbinl"]
 
-[ext_resource type="Script" uid="uid://clrvt6npk4vtj" path="res://scripts/bullet.gd" id="1_y0060"]
-[ext_resource type="Texture2D" uid="uid://b1j8lux4in6v2" path="res://assets/Air Strike/Effects/plane_shot.png" id="2_t1be0"]
+[ext_resource type="Script" uid="uid://clrvt6npk4vtj" path="res://scripts/bullet.gd" id="1_cjadv"]
+[ext_resource type="Texture2D" uid="uid://b1j8lux4in6v2" path="res://assets/Air Strike/Effects/plane_shot.png" id="2_q360c"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bfw0j"]
 size = Vector2(10, 12)
 
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=2063835049]
 scale = Vector2(3, 3)
-collision_layer = 2
+collision_layer = 4
 collision_mask = 0
-script = ExtResource("1_y0060")
+script = ExtResource("1_cjadv")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1310784668]
 texture_filter = 1
 rotation = 1.5707964
-texture = ExtResource("2_t1be0")
+texture = ExtResource("2_q360c")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=191136318]
 rotation = 1.5707964

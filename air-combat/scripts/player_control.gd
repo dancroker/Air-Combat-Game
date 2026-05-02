@@ -40,3 +40,8 @@ func fire():
 	bullets.pos=$"Fire Location".global_position
 	bullets.rota=global_rotation
 	get_parent().add_child(bullets)
+
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	queue_free()
+	pass # Replace with function body.

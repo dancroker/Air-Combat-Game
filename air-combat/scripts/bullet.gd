@@ -3,6 +3,7 @@ var pos : Vector2
 var rota : float
 var dir : float
 var speed = 2000
+var bullet_lifetime = 5
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -12,3 +13,7 @@ func _ready():
 func _physics_process(delta):
 	velocity = Vector2(speed,0).rotated(dir)
 	move_and_slide()
+	bullet_lifetime -= delta
+	
+	if bullet_lifetime < 0:
+		queue_free()
