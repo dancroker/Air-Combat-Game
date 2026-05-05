@@ -5,6 +5,7 @@ extends CharacterBody2D
 @export var turn_speed : float
 @export var start_posisition : Vector2
 @export var fire_speed : float
+@export var accuracy : float
 var fire_time : float
 
 var bullet_path=preload("res://enemybullet.tscn")
@@ -33,7 +34,8 @@ func _physics_process(delta):
 
 func fire():
 	var bullets = bullet_path.instantiate()
-	bullets.dir = rotation
+	var random_vairance = randf_range(-accuracy,accuracy)
+	bullets.dir = rotation+random_vairance
 	bullets.pos=$"Fire Location".global_position
 	bullets.rota=global_rotation
 	get_parent().add_child(bullets)
